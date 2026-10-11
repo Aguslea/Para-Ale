@@ -505,6 +505,20 @@ alturas.forEach(function(altura){
 
 const barras=document.querySelectorAll(".onda span");
 
+  /* Permitir saltar a cualquier momento del audio */
+onda.style.cursor = "pointer";
+
+onda.addEventListener("click", function(event) {
+    if (!isFinite(audioMensaje.duration) || audioMensaje.duration <= 0) return;
+
+    const rect = onda.getBoundingClientRect();
+    const posicion = Math.max(0, Math.min(1,
+        (event.clientX - rect.left) / rect.width
+    ));
+
+    audioMensaje.currentTime = posicion * audioMensaje.duration;
+});
+
 function formatoTiempo(segundos){
     if(!isFinite(segundos))return "0:00";
     const minutos=Math.floor(segundos/60);
